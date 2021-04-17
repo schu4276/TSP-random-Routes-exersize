@@ -2,7 +2,7 @@
 
     // You'll need to replace this with the URL you get when you
     // deploy your API Gateway.
-    const baseUrl = 'https://nh5gsos957.execute-api.us-east-1.amazonaws.com/prod/'
+    const baseUrl = 'https://yu0o6nuywg.execute-api.us-east-1.amazonaws.com/prod'
     console.log(`The base URL is ${baseUrl}.`);
 
     // Set up the functions to be called when the user clicks on any
@@ -87,7 +87,24 @@
     // You should add each of these to `#best-route-list`
     // (after clearing it first).
     function getBestRoutes(event) {
-        alert('You need to implement getBestRoutes()');
+        $('#best-route-list').text('');
+        const runId = $('#runId-text-field').val();
+        const limit = $('#num-best-to-get').val();
+        gen = $('#generation-text-field').val();
+        var settings = {
+            "url": `https://yu0o6nuywg.execute-api.us-east-1.amazonaws.com/prod/best?runId=${runId}&generation=${gen}&numToReturn=${limit}`,
+            "method": "GET",
+            "timeout": 0,
+          };
+          
+          $.ajax(settings).done(function (response) {
+              for(let i=0; i<response.length; i++){
+                $('#best-route-list').append(`<ol>We found route ${response[i].routeId} with length ${response[i].length}.</ol>`);
+
+              }
+            
+            console.log(response);
+          });
     }
 
     // Make a `GET` request that gets all the route information
@@ -98,7 +115,20 @@
     // You should display the returned information in 
     // `#route-by-id-elements` (after clearing it first).
     function getRouteById() {
-        alert('You need to implement getRouteById()');
+        $('#route-ID').text('');
+        const routeId = $('#route-ID').val();
+        var settings = {
+            "url": `https://yu0o6nuywg.execute-api.us-east-1.amazonaws.com/prod/routes/${routeId}`,
+            "method": "GET",
+            "timeout": 0,
+          };
+          
+          $.ajax(settings).done(function (response) {
+            console.log(response);
+            $('#route-by-id-elements').append(`<li>We found route ${response.routeId} with length ${response.length}.</li>`);
+
+          });
     }
+    
 
 }(jQuery));
